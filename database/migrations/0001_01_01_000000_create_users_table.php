@@ -13,10 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name'); // Prénom
+            $table->string('last_name');  // Nom
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            
+            // Les champs spécifiques à Royal Wheels
+            $table->string('address')->nullable(); // Adresse 
+            $table->date('birth_date')->nullable(); // Date de naissance 
+            $table->date('license_date')->nullable(); // Date d'obtention du permis
+            
+            // Gestion des rôles et statuts
+            // Rôles possibles : 'client', 'employee', 'admin'
+            $table->enum('role', ['client', 'employee', 'admin'])->default('client');
+            $table->boolean('is_active')->default(true); // Pour désactiver un employé
+
             $table->rememberToken();
             $table->timestamps();
         });
