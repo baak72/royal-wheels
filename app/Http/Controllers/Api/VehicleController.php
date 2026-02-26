@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
-use Illuminate\Http\Request;
+use App\Http\Resources\VehicleResource;
 
 class VehicleController extends Controller
 {
@@ -13,10 +13,9 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        // On récupère tous les véhicules AVEC leur photo principale
+        // On récupère tout les véhicules avec leur photo principale
         $vehicles = Vehicle::with('primaryPhoto')->get();
 
-        // On renvoie le tout au format JSON avec un code 200 (Succès)
-        return response()->json($vehicles, 200);
+        return VehicleResource::collection($vehicles);
     }
 }
