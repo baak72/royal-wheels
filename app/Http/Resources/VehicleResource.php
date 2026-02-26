@@ -14,7 +14,6 @@ class VehicleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // Construction de la réponse JSON "propre"
         return [
             'id' => $this->id,
             'brand' => $this->brand,
@@ -25,18 +24,26 @@ class VehicleResource extends JsonResource
             'power_hp' => $this->power_hp,
             'acceleration' => $this->acceleration,
             'seats' => $this->seats,
-
             'daily_price' => (float) $this->daily_price,
             'deposit' => (float) $this->deposit,
-            
             'min_age' => $this->min_age,
             'min_license_years' => $this->min_license_years,
             'status' => $this->status,
 
-            // Extraction de l'image du sous-tableau et utilisation de la fonction asset() pour générer le lien complet
+            // La photo principale
             'image_url' => $this->primaryPhoto ? asset($this->primaryPhoto->file_path) : null,
             
-            // Remarque : 'created_at' et 'updated_at' sont volontairement omis.
+            // Le carrousel de photos
+            'gallery' => $this->whenLoaded('photos', function () {
+                // On transforme chaque photo brute en petit tableau avec son lien direct
+                return $this->photos->map(function ($photo) {
+                    return [
+                        'id' => $photo->id,
+                        'url' => asset($photo->file_path),
+                        'is_primary' => (bool) $photo->is_primary,
+                    ];
+                });
+            }),
         ];
     }
 }
