@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // La route pour se déconnecter
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // Voir son historique de réservations
+    Route::get('/reservations', [ReservationController::class, 'index']);
+
     // La route pour créer une réservation
     Route::post('/reservations', [ReservationController::class, 'store']);
     
