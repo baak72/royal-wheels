@@ -11,6 +11,21 @@ use Carbon\Carbon;
 class ReservationController extends Controller
 {
     /**
+     * Retourne l'historique des réservations du client connecté.
+     */
+    public function index(Request $request)
+    {
+        // 1. On ne ramène que les réservations de l'utilisateur connecté
+        $reservations = Reservation::with('vehicle') // Les infos de la voiture
+            ->where('user_id', $request->user()->id) // Uniquement SON historique
+            ->orderBy('created_at', 'desc') // Triage pour avoir les plus récentes en haut de la liste
+            ->get();
+
+        // 2. Envoie un JSON de toutes les réservations du client
+        return response()->json($reservations, 200);
+    }
+
+    /**
      * Crée une nouvelle réservation.
      */
     public function store(Request $request)
