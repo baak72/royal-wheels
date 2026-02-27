@@ -27,4 +27,12 @@ class Vehicle extends Model
     {
         return $this->hasOne(Photo::class)->where('is_primary', true);
     }
+
+    /**
+     * Relation : Un véhicule POSSÈDE PLUSIEURS (hasMany) réservations.
+     */
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
