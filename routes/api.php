@@ -13,6 +13,9 @@ Route::get('/vehicles/{id}', [VehicleController::class, 'show']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Route publique pour afficher tout le catalogue de véhicules
+Route::get('/vehicles', [VehicleController::class, 'index']);
+
 // --- Routes protégées (nécessitent un token valide) ---
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -34,6 +37,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
             'message' => 'Bienvenue dans le repaire secret de l\'Admin !'
         ], 200);
     });
+
+    // Ajouter un véhicule au catalogue
+    Route::post('/vehicles', [VehicleController::class, 'store']);
     
 });
 });
