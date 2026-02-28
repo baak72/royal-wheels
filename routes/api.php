@@ -25,4 +25,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // La route pour créer une réservation
     Route::post('/reservations', [ReservationController::class, 'store']);
     
+    // --- Routes administration (Nécessitent un Token valide ET le rôle Admin) ---
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    
+    // Route de test temporaire
+    Route::get('/admin/test', function () {
+        return response()->json([
+            'message' => 'Bienvenue dans le repaire secret de l\'Admin !'
+        ], 200);
+    });
+    
+});
 });
