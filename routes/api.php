@@ -16,6 +16,9 @@ Route::post('/login', [AuthController::class, 'login']);
 // Route publique pour afficher tout le catalogue de véhicules
 Route::get('/vehicles', [VehicleController::class, 'index']);
 
+// Route publique pour voir les détails d'un véhicule spécifique
+Route::get('/vehicles/{id}', [VehicleController::class, 'show']);
+
 // --- Routes protégées (nécessitent un token valide) ---
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -40,6 +43,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Ajouter un véhicule au catalogue
     Route::post('/vehicles', [VehicleController::class, 'store']);
+
+    // Modifier un véhicule du catalogue
+    Route::put('/vehicles/{id}', [VehicleController::class, 'update']);
     
 });
 });

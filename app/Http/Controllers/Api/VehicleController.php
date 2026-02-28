@@ -25,16 +25,17 @@ class VehicleController extends Controller
     }
 
     /**
-     * Retourne les détails d'un SEUL véhicule spécifique avec TOUTES ses photos.
+     * Retourne les détails d'un SEUL véhicule spécifique.
      */
     public function show($id)
-    {
-        // 1. findOrFail($id) : Cherche le véhicule numéro X. S'il n'existe pas, renvoie une erreur.
-        // 2. with('photos') : Chargement de toute la galerie de photos liées à ce véhicule.
-        $vehicle = Vehicle::with('photos')->findOrFail($id);
+    { 
+        // S'il n'existe pas, renvoie automatiquement en erreur.
+        $vehicle = Vehicle::findOrFail($id);
 
-        // Filtrage ("new" car il n'y a qu'un seul véhicule)
-        return new VehicleResource($vehicle);
+        return response()->json([
+            'message' => 'Détails du véhicule récupérés avec succès.',
+            'vehicle' => $vehicle
+        ], 200);
     }
 
     /**
@@ -56,7 +57,7 @@ class VehicleController extends Controller
             'min_age' => 'required|integer|min:18',
             'min_license_years' => 'required|integer|min:0',
             'deposit' => 'required|numeric|min:0',
-            'status' => 'nullable|string|in:disponible,en_maintenance,loué',
+            'status' => 'nullable|string|in:Disponible,En_maintenance,Loué',
         ]);
 
         // Statut "Disponible" par défaut
@@ -70,5 +71,40 @@ class VehicleController extends Controller
             'message' => 'Véhicule ajouté au catalogue avec succès !',
             'vehicle' => $vehicle
         ], 201);
+    }
+
+    /**
+     * ADMIN : Met à jour un véhicule existant.
+     */
+    public function update(Request $request, $id)
+    {
+        // 1. On cherche le véhicule (erreur si non trouvé)
+        $vehicle = Vehicle::findOrFail($id);
+
+        // 2. On valide les données reçues
+        $validated = $request->validate([
+            'brand' => 'sometimes|required|string|max:255',
+            'model' => 'sometimes|required|string|max:255',
+            'category' => 'sometimes|required|string|max:255',
+            'gearbox' => 'sometimes|required|string|in:Manuelle,Automatique',
+            'engine' => 'sometimes|required|string|max:255',
+            'power_hp' => 'sometimes|required|integer|min:0',
+            'acceleration' => 'sometimes|required|numeric|min:0',
+            'seats' => 'sometimes|required|integer|min:1',
+            'daily_price' => 'sometimes|required|numeric|min:0',
+            'min_age' => 'sometimes|required|integer|min:18',
+            'min_license_years' => 'sometimes|required|integer|min:0',
+            'deposit' => 'sometimes|required|numeric|min:0',
+            'status' => 'sometimes|string|in:Disponible,En_maintenance,Loué',
+        ]);
+
+        // 3. Mise à jour du véhicule avec les nouvelles données
+        $vehicle->update($validated);
+
+        // 4. Réponse JSON avec le véhicule mis à jour
+        return response()->json([
+            'message' => 'Véhicule mis à jour avec succès.',
+            'vehicle' => $vehicle
+        ], 200);
     }
 }
