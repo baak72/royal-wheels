@@ -1,59 +1,69 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 Royal Wheels - API REST
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API Backend pour une application de location de véhicules de prestige. 
+Ce projet est construit avec **Laravel** et expose des points de terminaison (endpoints) sécurisés pour gérer le catalogue de voitures, l'authentification des utilisateurs, et le système de réservation.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠️ Technologies Utilisées
+* **Framework :** Laravel 11/12
+* **Langage :** PHP 8.4+
+* **Authentification :** Laravel Sanctum (Token-based API)
+* **Base de données :** SQLite / PostgreSQL
+* **Gestion des dates :** Carbon
+* **Environnement de dév :** Laravel Herd
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Installation locale
 
-## Learning Laravel
+Pour faire tourner ce projet sur votre machine locale, suivez ces étapes :
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. **Cloner le dépôt :**
+`git clone https://github.com/baak72/royal-wheels.test.git`
+`cd royal-wheels.test`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Installer les dépendances :**
+`composer install`
 
-## Laravel Sponsors
+3. **Configuration de l'environnement :**
+Copiez le fichier d'exemple et générez la clé de l'application :
+`cp .env.example .env`
+`php artisan key:generate`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Base de données (Migrations & Seeders) :**
+Préparez la base de données et insérez les fausses données de test (voitures, utilisateurs) :
+`php artisan migrate:fresh --seed`
 
-### Premium Partners
+5. **Lancer le serveur local (si vous n'utilisez pas Herd) :**
+`php artisan serve`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📡 Documentation des Routes API
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🌍 Routes Publiques (Catalogue)
+| Méthode | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/vehicles` | Retourne la liste de tous les véhicules (avec photo principale). |
+| `GET` | `/api/vehicles/{id}` | Retourne les détails d'un véhicule spécifique (avec sa galerie photos). |
 
-## Code of Conduct
+### 🔐 Authentification
+| Méthode | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/register` | Inscription d'un nouveau client (Renvoie un Token). |
+| `POST` | `/api/login` | Connexion d'un utilisateur existant (Renvoie un Token). |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🛡️ Routes Protégées (Nécessitent un Bearer Token Sanctum)
+| Méthode | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/logout` | Détruit le Token actuel et déconnecte l'utilisateur. |
+| `POST` | `/api/reservations` | Crée une nouvelle réservation pour le client connecté. |
+| `GET` | `/api/reservations` | Retourne l'historique complet des réservations du client connecté. |
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🚧 État du Projet
+* ✅ **Phase 1 :** Architecture de base et API publique (Catalogue).
+* ✅ **Phase 2 :** Authentification Sanctum et espace client (Réservations).
+* ⏳ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD des véhicules).
