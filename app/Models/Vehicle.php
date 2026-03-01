@@ -9,11 +9,21 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    // On autorise tout ce qui vient de notre Seeder / formulaire
+    // Liste blanche pour autoriser la création
     protected $fillable = [
-        'brand', 'model', 'category', 'gearbox', 'engine', 
-        'power_hp', 'acceleration', 'seats', 'daily_price', 
-        'min_age', 'min_license_years', 'deposit', 'status'
+        'brand',
+        'model',
+        'category',
+        'gearbox',
+        'engine',
+        'power_hp',
+        'acceleration',
+        'seats',
+        'daily_price',
+        'min_age',
+        'min_license_years',
+        'deposit',
+        'status',
     ];
 
     // Un véhicule POSSÈDE PLUSIEURS (hasMany) photos

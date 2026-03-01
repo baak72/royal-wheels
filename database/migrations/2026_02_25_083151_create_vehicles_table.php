@@ -35,8 +35,8 @@ return new class extends Migration
             $table->integer('min_license_years'); // Années de permis obligatoires
             $table->decimal('deposit', 10, 2); // Montant de la caution
             
-            // Statut du véhicule (Disponible ou Maintenance)
-            $table->enum('status', ['Disponible', 'Maintenance'])->default('Disponible');
+            // Statut du véhicule (Disponible ou En Maintenance)
+            $table->enum('status', ['Disponible', 'En_maintenance', 'Loué'])->default('Disponible');
             
             $table->timestamps();
         });
