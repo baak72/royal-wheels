@@ -61,9 +61,29 @@ Préparez la base de données et insérez les fausses données de test (voitures
 | `POST` | `/api/reservations` | Crée une nouvelle réservation pour le client connecté. |
 | `GET` | `/api/reservations` | Retourne l'historique complet des réservations du client connecté. |
 
+### 👑 Routes Administrateur (Nécessitent un Token + Rôle Admin)
+| Méthode | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/vehicles` | Ajoute un nouveau véhicule au catalogue. |
+| `PUT` | `/api/vehicles/{id}` | Met à jour les informations d'un véhicule existant. |
+| `DELETE` | `/api/vehicles/{id}` | Supprime définitivement un véhicule du catalogue. |
+
 ---
 
-## 🚧 État du Projet
-* ✅ **Phase 1 :** Architecture de base et API publique (Catalogue).
-* ✅ **Phase 2 :** Authentification Sanctum et espace client (Réservations).
-* ⏳ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD des véhicules).
+## 🚧 État du Projet et Feuille de Route
+### ⚙️ PARTIE 1 : BACKEND (API REST avec Laravel)
+* ✅ **Phase 1 :** Architecture de base et API publique (Catalogue des véhicules).
+* ✅ **Phase 2 :** Authentification Sanctum et gestion des tokens.
+* ✅ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD complet des véhicules).
+* ⏳ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
+* ⏳ **Phase 5 :** Moteur de réservations (Vérification des dates, calcul du prix total).
+* ⏳ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
+* ⏳ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
+
+### 🖥️ PARTIE 2 : FRONTEND (Interface Utilisateur)
+* ⏳ **Phase 8 :** Initialisation du projet Front (Vue.js).
+* ⏳ **Phase 9 :** Intégration du catalogue public (Connexion à l'API pour afficher les voitures).
+* ⏳ **Phase 10 :** Système d'authentification (Formulaires de Login / Register et gestion du Token).
+* ⏳ **Phase 11 :** Espace Client (Création de réservation, affichage de l'historique).
+* ⏳ **Phase 12 :** Tableau de bord Administrateur (Gestion des véhicules, images, réservations et utilisateurs).
+* ⏳ **Phase 13 :** Finalisation, design responsive et déploiement du Frontend.
