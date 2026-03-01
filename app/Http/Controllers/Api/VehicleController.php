@@ -25,13 +25,21 @@ class VehicleController extends Controller
     }
 
     /**
-     * Retourne les détails d'un SEUL véhicule spécifique.
+     * Affiche les détails d'un véhicule spécifique.
      */
-    public function show($id)
-    { 
-        // S'il n'existe pas, renvoie automatiquement en erreur.
-        $vehicle = Vehicle::findOrFail($id);
+    public function show(string $id)
+    {
+        // 1. On cherche le véhicule par son ID
+        $vehicle = Vehicle::find($id);
 
+        // 2. Si le véhicule n'existe pas, on renvoie une erreur
+        if (!$vehicle) {
+            return response()->json([
+                'message' => 'Véhicule introuvable.'
+            ], 404);
+        }
+
+        // 3. S'il existe, on retourne ses données
         return response()->json([
             'message' => 'Détails du véhicule récupérés avec succès.',
             'vehicle' => $vehicle
@@ -105,6 +113,30 @@ class VehicleController extends Controller
         return response()->json([
             'message' => 'Véhicule mis à jour avec succès.',
             'vehicle' => $vehicle
+        ], 200);
+    }
+
+    /**
+     * Supprime un véhicule spécifique.
+     */
+    public function destroy(string $id)
+    {
+        // 1. On cherche le véhicule
+        $vehicle = Vehicle::find($id);
+
+        // 2. Si le véhicule n'existe pas (ou a déjà été supprimé)
+        if (!$vehicle) {
+            return response()->json([
+                'message' => 'Véhicule introuvable.'
+            ], 404);
+        }
+
+        // 3. On le supprime de la base de données
+        $vehicle->delete();
+
+        // 4. On retourne un message de confirmation
+        return response()->json([
+            'message' => 'Véhicule supprimé avec succès.'
         ], 200);
     }
 }
