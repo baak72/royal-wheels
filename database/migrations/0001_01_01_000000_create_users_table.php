@@ -27,7 +27,7 @@ return new class extends Migration
             // Gestion des rôles et statuts
             // Rôles possibles : 'client', 'employee', 'admin'
             $table->enum('role', ['client', 'employee', 'admin'])->default('client');
-            $table->boolean('is_active')->default(true); // Pour désactiver un employé
+            $table->boolean('status')->default(true); // Pour désactiver un employé
 
             $table->rememberToken();
             $table->timestamps();

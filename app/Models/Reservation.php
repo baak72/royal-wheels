@@ -15,8 +15,12 @@ class Reservation extends Model
         'vehicle_id',
         'start_date',
         'end_date',
-        'total_price',
         'status',
+        'base_price',
+        'discount',
+        'deposit_amount',
+        'balance',
+        'invoice_link'
     ];
 
     // 2. Relation : Une réservation APPARTIENT À (belongsTo) un client

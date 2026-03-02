@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             // La réservation concernée et l'employé qui réalise l'état des lieux
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('reservation_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Ici, user_id représente l'employé
             
             // Est-ce le départ ou le retour ?

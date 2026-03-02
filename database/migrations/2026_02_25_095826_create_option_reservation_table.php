@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_option', function (Blueprint $table) {
+        Schema::create('option_reservation', function (Blueprint $table) {
             $table->id();
 
             // Les clés étrangères qui relient les deux mondes
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('reservation_id')->constrained()->cascadeOnDelete();
             $table->foreignId('option_id')->constrained()->cascadeOnDelete();
             
             // On fige le prix unitaire au moment de l'achat
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_option');
+        Schema::dropIfExists('option_reservation');
     }
 };
