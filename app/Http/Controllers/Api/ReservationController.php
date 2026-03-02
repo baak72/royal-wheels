@@ -30,40 +30,87 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Vérification des données envoyées par le Front-end
+        // 1. Validation des données envoyées par le Front-end
         $validated = $request->validate([
             'vehicle_id' => 'required|exists:vehicles,id',
             'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after:start_date',
+            'end_date'   => 'required|date|after:start_date',
         ]);
 
-        // 2. Récupération de la voiture demandée pour lire son prix
+        $user = $request->user();
         $vehicle = Vehicle::findOrFail($validated['vehicle_id']);
-        
-        // 3. Le calcul des dates avec Carbon
-        $start = Carbon::parse($validated['start_date']);
-        $end = Carbon::parse($validated['end_date']);
-        
-        $days = $start->diffInDays($end) + 1;
-        
-        $totalPrice = $days * $vehicle->daily_price;
+        $start = \Carbon\Carbon::parse($validated['start_date']);
+        $end = \Carbon\Carbon::parse($validated['end_date']);
 
-        // 4. Création de la réservation en base de données
-        $reservation = Reservation::create([
-            'user_id' => $request->user()->id, 
+        // 2. RÈGLE MÉTIER : Vérification du profil complet
+        if (!$user->birth_date || !$user->license_date) {
+            return response()->json(['message' => 'Action refusée : Veuillez compléter votre profil (date de naissance et permis).'], 403);
+        }
+
+        // 3. RÈGLE MÉTIER : Vérification de l'éligibilité (Âge et Permis)
+        $age = $user->birth_date->age;
+        $licenseYears = $user->license_date->diffInYears(now());
+
+        if ($age < $vehicle->min_age || $licenseYears < $vehicle->min_license_years) {
+            return response()->json(['message' => 'Éligibilité refusée : Vous ne remplissez pas les conditions d\'âge ou de permis pour ce véhicule.'], 403);
+        }
+
+        // 4. RÈGLE MÉTIER : Disponibilité du véhicule
+        $overlapping = \App\Models\Reservation::where('vehicle_id', $vehicle->id)
+            ->where('status', '!=', 'Annulée')
+            ->where(function ($query) use ($start, $end) {
+                $query->whereBetween('start_date', [$start, $end])
+                      ->orWhereBetween('end_date', [$start, $end])
+                      ->orWhere(function ($q) use ($start, $end) {
+                          $q->where('start_date', '<=', $start)->where('end_date', '>=', $end);
+                      });
+            })->exists();
+
+        if ($overlapping) {
+            return response()->json(['message' => 'Désolé, ce véhicule est déjà réservé pour ces dates.'], 409);
+        }
+
+        // 5. RÈGLE MÉTIER : Tarification dégressive et Acompte
+        $days = $start->diffInDays($end) + 1; // +1 pour inclure le premier ET le dernier jour
+        $basePrice = $days * $vehicle->daily_price;
+
+        $discountPercent = 0;
+        if ($days >= 7) {
+            $discountPercent = 20;
+        } elseif ($days >= 3) {
+            $discountPercent = 10;
+        }
+
+        $discountAmount = ($basePrice * $discountPercent) / 100;
+        $totalPrice = $basePrice - $discountAmount;
+
+        // Acompte de 30% obligatoire
+        $depositAmount = $totalPrice * 0.30;
+        $balance = $totalPrice - $depositAmount;
+
+        // 6. Création de la réservation en base
+        $reservation = \App\Models\Reservation::create([
+            'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
             'start_date' => $start->toDateString(),
             'end_date' => $end->toDateString(),
-            'total_price' => $totalPrice,
-            'status' => 'pending', // 'En attente' par défaut
+            'status' => 'En attente de validation',
+            'base_price' => $basePrice,
+            'discount' => $discountPercent,
+            'deposit_amount' => $depositAmount,
+            'balance' => $balance,
         ]);
 
-        // 5. Renvoie un JSON de succès avec les détails
         return response()->json([
             'message' => 'Réservation créée avec succès !',
-            'days_rented' => $days,
-            'daily_price' => (float) $vehicle->daily_price,
-            'total_price' => $totalPrice,
+            'details' => [
+                'days_rented' => $days,
+                'base_price' => $basePrice,
+                'discount_applied' => $discountPercent . '%',
+                'total_price' => $totalPrice,
+                'deposit_to_pay_now' => $depositAmount,
+                'balance_due_on_site' => $balance,
+            ],
             'reservation' => $reservation
         ], 201);
     }
