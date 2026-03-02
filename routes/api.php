@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ReservationController;
-
-// --- CATALOGUE ---
-Route::get('/vehicles', [VehicleController::class, 'index']);
-Route::get('/vehicles/{id}', [VehicleController::class, 'show']);
+use App\Http\Controllers\Api\PhotoController;
 
 // --- AUTHENTIFICATION ---
 Route::post('/register', [AuthController::class, 'register']);
@@ -15,7 +12,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 // --- ROUTES PUBLICS ---
-
 // Afficher tout le catalogue de véhicules
 Route::get('/vehicles', [VehicleController::class, 'index']);
 // Voir les détails de UN SEUL véhicule spécifique
@@ -42,6 +38,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
             'message' => 'Bienvenue dans le repaire secret de l\'Admin !'
         ], 200);
     });
+
+    // --- CRUD Véhicules ---
     // Ajouter un véhicule au catalogue
     Route::post('/vehicles', [VehicleController::class, 'store']);
     // Modifier un véhicule du catalogue
@@ -49,5 +47,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Supprimer un véhicule du catalogue
     Route::delete('/vehicles/{id}', [VehicleController::class, 'destroy']);
     
+    // --- CRUD Photos ---
+    // Ajouter une photo à un véhicule
+    Route::post('/vehicles/{vehicleId}/photos', [PhotoController::class, 'store']);
+    // Supprimer une photo d'un véhicule
+    Route::delete('/photos/{id}', [PhotoController::class, 'destroy']);
 });
 });
