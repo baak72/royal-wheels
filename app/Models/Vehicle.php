@@ -26,20 +26,20 @@ class Vehicle extends Model
         'status',
     ];
 
-    // Un véhicule POSSÈDE PLUSIEURS (hasMany) photos
+    // Un véhicule POSSÈDE PLUSIEURS photos
     public function photos()
     {
         return $this->hasMany(Photo::class);
     }
 
-    // Un véhicule POSSÈDE UNE SEULE (hasOne) photo principale
+    // Un véhicule POSSÈDE UNE SEULE photo principale
     public function primaryPhoto()
     {
         return $this->hasOne(Photo::class)->where('is_primary', true);
     }
 
     /**
-     * Relation : Un véhicule POSSÈDE PLUSIEURS (hasMany) réservations.
+     * Relation : Un véhicule POSSÈDE PLUSIEURS réservations.
      */
     public function reservations()
     {

@@ -75,13 +75,13 @@ Préparez la base de données et insérez les fausses données de test (voitures
 * ✅ **Phase 1 :** Architecture de base et API publique (Catalogue des véhicules).
 * ✅ **Phase 2 :** Authentification Sanctum et gestion des tokens.
 * ✅ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD complet des véhicules).
-* ⏳ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
+* ✅ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
 * ⏳ **Phase 5 :** Moteur de réservations (Vérification des dates, calcul du prix total).
 * ⏳ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
 * ⏳ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
 
-### 🖥️ PARTIE 2 : FRONTEND (Interface Utilisateur)
-* ⏳ **Phase 8 :** Initialisation du projet Front (Vue.js).
+### 🖥️ PARTIE 2 : FRONTEND (avec Vue.js)
+* ⏳ **Phase 8 :** Initialisation du projet Front.
 * ⏳ **Phase 9 :** Intégration du catalogue public (Connexion à l'API pour afficher les voitures).
 * ⏳ **Phase 10 :** Système d'authentification (Formulaires de Login / Register et gestion du Token).
 * ⏳ **Phase 11 :** Espace Client (Création de réservation, affichage de l'historique).

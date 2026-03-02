@@ -14,10 +14,9 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        // Récupération de tous les véhicules depuis la base de données
-        $vehicles = Vehicle::all();
+        // On récupère tous les véhicules AVEC leur photo principale uniquement
+        $vehicles = Vehicle::with('primaryPhoto')->get();
 
-        // On retourne le résultat en JSON
         return response()->json([
             'message' => 'Catalogue récupéré avec succès.',
             'vehicles' => $vehicles
@@ -29,17 +28,16 @@ class VehicleController extends Controller
      */
     public function show(string $id)
     {
-        // 1. On cherche le véhicule par son ID
-        $vehicle = Vehicle::find($id);
+        // On cherche le véhicule par son ID, AVEC toutes ses photos
+        $vehicle = Vehicle::with('photos')->find($id);
 
-        // 2. Si le véhicule n'existe pas, on renvoie une erreur
         if (!$vehicle) {
             return response()->json([
                 'message' => 'Véhicule introuvable.'
             ], 404);
         }
 
-        // 3. S'il existe, on retourne ses données
+        // S'il existe, on retourne ses données avec la galerie
         return response()->json([
             'message' => 'Détails du véhicule récupérés avec succès.',
             'vehicle' => $vehicle
