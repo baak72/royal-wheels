@@ -34,4 +34,10 @@ class Reservation extends Model
     {
         return $this->belongsTo(Vehicle::class);
     }
+
+    // 4. Relation : Une réservation POSSÈDE PLUSIEURS options
+    public function options()
+    {
+        return $this->belongsToMany(Option::class);
+    }
 }
