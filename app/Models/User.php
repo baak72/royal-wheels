@@ -50,6 +50,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birth_date' => 'date',
+            'license_date' => 'date', // Calculer l'ancienneté du permis
         ];
     }
 
