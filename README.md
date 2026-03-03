@@ -66,7 +66,7 @@ Rendez le dossier de stockage des images accessible publiquement :
 | :--- | :--- | :--- |
 | `POST` | `/api/logout` | Détruit le Token actuel et déconnecte l'utilisateur. |
 | `GET` | `/api/reservations` | Retourne l'historique complet des réservations du client connecté. |
-| `POST` | `/api/reservations` | Crée une réservation (Vérifie l'âge/permis, empêche les chevauchements, applique les réductions et calcule l'acompte de 30%). |
+| `POST` | `/api/reservations` | Crée une réservation premium (Vérification des dates et de l'éligibilité, intégration des options, sécurisation par transaction DB et calcul de l'acompte). |
 
 ### 👑 Routes Administrateur (Nécessitent un Token + Rôle Admin)
 | Méthode | Endpoint | Description |
@@ -86,7 +86,7 @@ Rendez le dossier de stockage des images accessible publiquement :
 * ✅ **Phase 2 :** Authentification Sanctum et gestion des tokens.
 * ✅ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD complet des véhicules).
 * ✅ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
-* ✅ **Phase 5 :** Moteur de réservations (Vérification des dates, calcul du prix total).
+* ✅ **Phase 5 :** Moteur de réservations (Vérification des dates, options premium, calcul du prix total et transactions DB).
 * ⏳ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
 * ⏳ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
 
