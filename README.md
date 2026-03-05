@@ -76,6 +76,12 @@ Rendez le dossier de stockage des images accessible publiquement :
 | `DELETE` | `/api/vehicles/{id}` | Supprime définitivement un véhicule du catalogue. |
 | `POST` | `/api/vehicles/{id}/photos` | Upload et ajoute une nouvelle photo (WebP/AVIF) à la galerie d'un véhicule. |
 | `DELETE` | `/api/photos/{id}` | Supprime une photo de la base de données et son fichier physique du serveur. |
+| `GET` | `/api/admin/reservations` | Retourne la liste complète de toutes les réservations de l'entreprise. |
+| `PATCH` | `/api/admin/reservations/{id}/status` | Modifie le statut d'une réservation (ex: Acompte payé, Terminée, etc.). |
+| `GET` | `/api/admin/users` | Liste tous les utilisateurs inscrits sur la plateforme (clients et employés). |
+| `POST` | `/api/admin/users` | Crée un nouveau compte interne (employé ou administrateur). |
+| `PATCH` | `/api/admin/users/{id}/status` | Désactive ou réactive un compte client (Bannissement). |
+| `DELETE` | `/api/admin/users/{id}` | Supprime définitivement un compte employé. |
 
 ---
 
@@ -87,7 +93,7 @@ Rendez le dossier de stockage des images accessible publiquement :
 * ✅ **Phase 3 :** Back-Office Administrateur (Middleware de rôle, CRUD complet des véhicules).
 * ✅ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
 * ✅ **Phase 5 :** Moteur de réservations (Vérification des dates, options premium, calcul du prix total et transactions DB).
-* ⏳ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
+* ✅ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
 * ⏳ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
 
 ### 🖥️ PARTIE 2 : FRONTEND (Vue.js 3 & Tailwind CSS)
