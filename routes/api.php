@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\PhotoController;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\UserController;
 
 // --- AUTHENTIFICATION ---
 Route::post('/register', [AuthController::class, 'register']);
@@ -52,5 +54,21 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/vehicles/{vehicleId}/photos', [PhotoController::class, 'store']);
     // Supprimer une photo d'un véhicule
     Route::delete('/photos/{id}', [PhotoController::class, 'destroy']);
+
+    // --- CRUD Utilisateurs ---
+    // Voir tous les utilisateurs inscrits
+    Route::get('/admin/users', [UserController::class, 'index']);
+    // Désactiver ou réactiver un compte client
+    Route::patch('/admin/users/{id}/status', [UserController::class, 'toggleActiveStatus']);
+    // Supprimer un compte employé
+    Route::delete('/admin/users/{id}', [UserController::class, 'destroy']);
+    // Créer un compte employé ou administrateur
+    Route::post('/admin/users', [UserController::class, 'store']);
+
+    // --- CRUD Réservations ---
+    // Voir toutes les réservations
+    Route::get('/admin/reservations', [AdminController::class, 'indexReservations']);
+    // Modifier le statut d'une réservation
+    Route::patch('/admin/reservations/{id}/status', [AdminController::class, 'updateReservationStatus']);
 });
 });
