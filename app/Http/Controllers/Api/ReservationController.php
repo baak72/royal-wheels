@@ -98,7 +98,7 @@ class ReservationController extends Controller
         // 6 & 7. ENREGISTREMENT SÉCURISÉ (Transaction BD)
         // =========================================================
         // Tout ce qui est dans ce bloc réussit en entier, ou échoue en entier (garantissant l'intégrité des données)
-        $reservation = \Illuminate\Support\Facades\DB::transaction(function () use ($user, $vehicle, $start, $end, $vehicleBasePrice, $optionsTotal, $discountPercent, $depositAmount, $balance, $validated, $options) {
+        $reservation = \Illuminate\Support\Facades\DB::transaction(function () use ($user, $vehicle, $start, $end, $vehicleBasePrice, $optionsTotal, $discountPercent, $depositAmount, $balance, $validated, $options, $grandTotal) {
             
             // A. Création de la réservation
             $newReservation = \App\Models\Reservation::create([
@@ -108,6 +108,7 @@ class ReservationController extends Controller
                 'end_date' => $end->toDateString(),
                 'status' => 'En attente de validation',
                 'base_price' => $vehicleBasePrice + $optionsTotal,
+                'total_price' => $grandTotal,
                 'discount' => $discountPercent,
                 'deposit_amount' => $depositAmount,
                 'balance' => $balance,
