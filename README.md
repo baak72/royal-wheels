@@ -55,7 +55,7 @@ Rendez le dossier de stockage des images accessible publiquement :
 | `GET` | `/api/vehicles` | Retourne la liste de tous les véhicules (incluant la photo principale). |
 | `GET` | `/api/vehicles/{id}` | Retourne les détails d'un véhicule spécifique (incluant la galerie photos complète). |
 
-### 🔐 Authentification
+### 🔐 Authentification (Protégé par Rate Limiting - 5 req/min)
 | Méthode | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/api/register` | Inscription d'un nouveau client (Renvoie un Token). |
@@ -82,6 +82,15 @@ Rendez le dossier de stockage des images accessible publiquement :
 | `POST` | `/api/admin/users` | Crée un nouveau compte interne (employé ou administrateur). |
 | `PATCH` | `/api/admin/users/{id}/status` | Désactive ou réactive un compte client (Bannissement). |
 | `DELETE` | `/api/admin/users/{id}` | Supprime définitivement un compte employé. |
+
+## 🧪 Tests Automatisés (PHPUnit)
+
+L'API Backend est couverte à 100% par des tests automatisés (Feature Tests) garantissant la fiabilité absolue de la logique métier (calculs financiers, anti-surbooking, sécurité des rôles).
+La base de données virtuelle de test (`SQLite`) est recréée à chaque exécution.
+
+Pour lancer la suite de tests complète (12 scénarios, 28 assertions) :
+
+php artisan test
 
 ---
 
