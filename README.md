@@ -103,7 +103,7 @@ php artisan test
 * ✅ **Phase 4 :** Gestion des médias (Upload, stockage et suppression des images des véhicules).
 * ✅ **Phase 5 :** Moteur de réservations (Vérification des dates, options premium, calcul du prix total et transactions DB).
 * ✅ **Phase 6 :** Gestion avancée (Historique client, validation/annulation admin, CRUD utilisateurs).
-* ⏳ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
+* ✅ **Phase 7 :** Tests, optimisation et déploiement de l'API sur un serveur.
 
 ### 🖥️ PARTIE 2 : FRONTEND (Vue.js 3 & Tailwind CSS)
 * ⏳ **Phase 8 :** Initialisation du projet Front.
