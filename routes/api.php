@@ -7,10 +7,19 @@ use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\PhotoController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+
+// --- CONFIGURATION SÉCURITÉ (RATE LIMITING) ---
+// Limite pour l'authentification : 5 essais par minute maximum par adresse IP
+RateLimiter::for('auth', function (Request $request) {
+    return Limit::perMinute(5)->by($request->ip());
+});
 
 // --- AUTHENTIFICATION ---
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:auth');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:auth');
 
 
 // --- ROUTES PUBLICS ---

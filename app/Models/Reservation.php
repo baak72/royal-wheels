@@ -17,19 +17,20 @@ class Reservation extends Model
         'end_date',
         'status',
         'base_price',
+        'total_price',
         'discount',
         'deposit_amount',
         'balance',
         'invoice_link'
     ];
 
-    // 2. Relation : Une réservation APPARTIENT À (belongsTo) un client
+    // 2. Relation : Une réservation APPARTIENT À un client
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // 3. Relation : Une réservation APPARTIENT À (belongsTo) un véhicule
+    // 3. Relation : Une réservation APPARTIENT À un véhicule
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);

@@ -32,7 +32,8 @@ return new class extends Migration
             ])->default('En attente de validation');
 
             // 4. LA PARTIE FINANCIÈRE
-            $table->decimal('base_price', 10, 2); // prix_base (avant réduction)
+            $table->decimal('base_price', 10, 2); // prix avant réduction
+            $table->decimal('total_price', 10, 2); // Prix après réduction
             // La réduction peut être de 0, 10 ou 20 selon la durée
             $table->integer('discount')->default(0); 
             $table->decimal('deposit_amount', 10, 2); // acompte de 30% obligatoire
