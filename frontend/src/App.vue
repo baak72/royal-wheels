@@ -1,13 +1,16 @@
 <template>
-  <div class="min-h-screen bg-black flex flex-col items-center justify-center text-white">
-    <h1 class="text-5xl font-bold text-blue-500 mb-4">
-      Royal Wheels
-    </h1>
-    <p class="text-xl text-slate-300">
-      Si c'est beau, c'est que Tailwind fonctionne !
-    </p>
+  <div class="dark min-h-screen bg-background text-foreground flex flex-col">
+    
+    <AppNavbar />
+
+    <main class="flex-1 relative">
+      <RouterView />
+    </main>
+
   </div>
 </template>
 
 <script setup>
+import { RouterView } from 'vue-router'
+import AppNavbar from '@/components/AppNavbar.vue'
 </script>
